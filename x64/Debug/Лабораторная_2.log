@@ -1,3 +1,0 @@
-﻿  main.cpp
-LINK : warning LNK4098: библиотека по умолчанию "MSVCRT" конфликтует с использованием других библиотек; используйте /NODEFAULTLIB:library
-  Лабораторная_2.vcxproj -> C:\Users\ролдаввапоьл\source\repos\Потапьева_ЭВМб-24-1\x64\Debug\Лабораторная_2.exe
