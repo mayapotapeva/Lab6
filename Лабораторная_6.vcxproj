@@ -104,12 +104,12 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Лабораторная_6\assimp\include;$(SolutionDir)Лабораторная_6\assimp\build\include;$(SolutionDir)Лабораторная_6\glew-2.1.0\include;$(SolutionDir)Лабораторная_6\glfw-3.4.bin.WIN64\include;$(SolutionDir)Лабораторная_6\glad\include;$(SolutionDir)Лабораторная_6\glfw-3.4.bin.WIN64\include\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp\build\include;$(SolutionDir)glew-2.1.0\include;$(SolutionDir)glfw-3.4.bin.WIN64\include;$(SolutionDir)glad\include;$(SolutionDir)glfw-3.4.bin.WIN64\include\glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Лабораторная_6\assimp;$(SolutionDir)Лабораторная_6\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Лабораторная_6\glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)assimp;$(SolutionDir)glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc143-mtd.lib;glew32.lib;glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;ole32.lib;dinput8.lib;dxguid.lib;winmm.lib;ws2_32.lib;advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -121,14 +121,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Лабораторная_6\assimp\include;$(SolutionDir)Лабораторная_6\assimp\build\include;$(SolutionDir)Лабораторная_6\glew-2.1.0\include;$(SolutionDir)Лабораторная_6\glfw-3.4.bin.WIN64\include;$(SolutionDir)Лабораторная_6\glad\include;$(SolutionDir)Лабораторная_6\glfw-3.4.bin.WIN64\include\glm</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)assimp\include;$(SolutionDir)assimp\build\include;$(SolutionDir)glew-2.1.0\include;$(SolutionDir)glfw-3.4.bin.WIN64\include;$(SolutionDir)glad\include;$(SolutionDir)glfw-3.4.bin.WIN64\include\glm</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Лабораторная_6\assimp;$(SolutionDir)Лабораторная_6\glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)Лабораторная_6\glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)assimp;$(SolutionDir)glfw-3.4.bin.WIN64\lib-vc2022;$(SolutionDir)glew-2.1.0\lib\Release\x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc143-mtd.lib;glew32.lib;glfw3.lib;opengl32.lib;user32.lib;gdi32.lib;shell32.lib;ole32.lib;dinput8.lib;dxguid.lib;winmm.lib;ws2_32.lib;advapi32.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
