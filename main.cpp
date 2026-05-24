@@ -10,11 +10,12 @@
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-glm::vec3 cameraTarget = glm::vec3(0.0f, 0.0f, 0.0f);
-float cameraRadius = 8.0f;
-float cameraYaw = -90.0f;
-float cameraPitch = 20.0f;
+glm::vec3 cameraPos = glm::vec3(0.0f, 1.0f, 5.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
+float yaw = -90.0f;
+float pitch = 0.0f;
 float lastX = SCR_WIDTH / 2.0f;
 float lastY = SCR_HEIGHT / 2.0f;
 bool firstMouse = true;
@@ -37,11 +38,17 @@ void mouse_callback(GLFWwindow* window, double xposIn, double yposIn) {
     lastX = xpos;
     lastY = ypos;
 
-    cameraYaw += xoffset;
-    cameraPitch += yoffset;
+    yaw += xoffset;
+    pitch += yoffset;
 
-    if (cameraPitch > 89.0f) cameraPitch = 89.0f;
-    if (cameraPitch < -89.0f) cameraPitch = -89.0f;
+    if (pitch > 89.0f) pitch = 89.0f;
+    if (pitch < -89.0f) pitch = -89.0f;
+
+    glm::vec3 direction;
+    direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+    direction.y = sin(glm::radians(pitch));
+    direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+    cameraFront = glm::normalize(direction);
 }
 
 int main() {
@@ -55,7 +62,7 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lab6 - Camera Around Model", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lab6 - Lighting", NULL, NULL);
     if (!window) {
         std::cerr << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -63,6 +70,7 @@ int main() {
     }
 
     glfwMakeContextCurrent(window);
+    glfwFocusWindow(window);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glfwSetCursorPosCallback(window, mouse_callback);
 
@@ -79,21 +87,25 @@ int main() {
 
     glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
     glm::mat4 modelMat = glm::mat4(1.0f);
-    modelMat = glm::scale(modelMat, glm::vec3(4.0f, 4.0f, 4.0f));
+    modelMat = glm::scale(modelMat, glm::vec3(0.5f, 0.5f, 0.5f));
 
     while (!glfwWindowShouldClose(window)) {
-        glm::vec3 cameraPos;
-        cameraPos.x = cameraTarget.x + cameraRadius * cos(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch));
-        cameraPos.y = cameraTarget.y + cameraRadius * sin(glm::radians(cameraPitch));
-        cameraPos.z = cameraTarget.z + cameraRadius * sin(glm::radians(cameraYaw)) * cos(glm::radians(cameraPitch));
+        float cameraSpeed = 0.05f;
+        if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+            cameraPos += cameraSpeed * cameraFront;
+        if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+            cameraPos -= cameraSpeed * cameraFront;
+        if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
 
-        glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-        glm::mat4 view = glm::lookAt(cameraPos, cameraTarget, cameraUp);
-
-        glClearColor(0.15f, 0.15f, 0.15f, 1.0f);
+        glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         shader.use();
+
+        glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
         shader.setMat4("projection", projection);
         shader.setMat4("view", view);
@@ -110,8 +122,7 @@ int main() {
         shader.setVec3("material.specular", 0.9f, 0.9f, 0.9f);
         shader.setFloat("material.shininess", 64.0f);
 
-        glm::mat4 transform = modelMat;
-        glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(transform)));
+        glm::mat3 normalMatrix = glm::transpose(glm::inverse(glm::mat3(modelMat)));
         shader.setMat3("normalMatrix", normalMatrix);
 
         model.Draw();
